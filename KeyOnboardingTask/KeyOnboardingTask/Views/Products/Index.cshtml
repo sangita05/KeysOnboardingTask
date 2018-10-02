@@ -1,0 +1,129 @@
+﻿@model IEnumerable<KeyOnboardingTask.Product>
+
+@{
+    ViewBag.Title = "IndexProduct";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+
+<h2>Product</h2>
+
+<p>
+    <a id="btnCreate" href="#myModal" data-toggle="modal">Create New</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor( model => model.Name)
+          
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id , @data_toggle = "modal", @data_target = "editProductModal"}) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>*@
+        <td>
+            <a class="btnEdit" href="#myModal" data-id="@item.Id" data-toggle="modal">Edit</a> |
+            <a class="btnDetail" href="#myModal" data-id="@item.Id" data-toggle="modal">Detail</a> |
+            <a class="btnDelete" href="#myModal" data-id="@item.Id" data-toggle="modal">Delete</a> 
+
+        </td>
+        
+    </tr>
+}
+
+</table>
+
+<div id="myModal" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="modal-content">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+       // $(document).ready(function () {
+        $("#btnCreate").click(function (event) {
+            $("#myModal").modal();
+            $("#modal-content").load("/Products/Create");
+        })
+
+        //$("#btnEdit").click(function (event) {
+        //    $("#myModal").modal();
+        //    $("#modal-content").load("/Products/Edit/" + $(this).data("data-id"));
+        //});
+
+        //$("#btnDelete").click(function (event) {
+        //    debugger
+        //    $("#myModal").modal();
+        //    $("#modal-content").load("/Customers/Delete/" + $(this).data("id"));
+        //});
+
+        $(document).ready(function () {
+            $('.btnEdit').click(function () {
+                debugger
+                var id = $(this).attr('data-id');
+                $("#myModal").modal();
+                $("#modal-content").load("/Products/Edit/" + $(this).data("id"));
+            });
+
+            $('.btnDetail').click(function () {
+                debugger
+                var id = $(this).attr('data-id');
+                $("#myModal").modal();
+                $("#modal-content").load("/Products/Details/" + $(this).data("id"));
+            });
+
+            $('.btnDelete').click(function () {
+                debugger
+                var id = $(this).attr('data-id');
+                $("#myModal").modal();
+                $("#modal-content").load("/Products/Delete/" + $(this).data("id"));
+            });
+        });
+
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*@Html.ActionLink("Edit", "Edit", new { id = item.Id, @data_toggle = "modal", @data_target = "editCourseModal" }) |
+
+<td> <a id="btnEdit" class="btnEdit btn btn-warning" data-id="@item.Id"><i class="glyphicon glyphicon-edit">Edit</i></a></td>
+<td> <a id="btnDelete" class="btnDelete btn btn-danger" data-id="@item.Id"><i class="glyphicon glyphicon-trash">Delete</i></a></td>*@

@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewBag.Title = "Product Sold";
+}
+<head>
+   <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+     <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/knockout-3.4.2.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+</head>
+
+<h2>Product Sold</h2>
+<button class="btn btn-primary" data-target="#myModal" data-toggle="modal" data-bind="click:$root.showSaveModal">Add New Sale Record</button>
+</br></br>
+
+<table class="table table-striped table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>Store</th>
+            <th>dateSold</th>
+            <th>Action(Edit)</th>
+            <th>Action(Delete)</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: Sales">
+        <tr>
+            <td data-bind="text: Customer"></td>
+            <td data-bind="text: Product"></td>
+            <td data-bind="text: Store"></td>
+            <td data-bind="text: moment(DateSold()).format('DD/MM/YYYY')"></td>
+
+            <td>
+                <button class="btn btn-warning"  data-bind="click:$root.showEditModal"><span class="glyphicon glyphicon-edit">
+                    Edit</span>
+                </button></td>
+               <td> <button class="btn btn-danger" data-bind="click:$root.Delete"><span class="glyphicon glyphicon-trash">
+                    Delete</span>
+                </button>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" data-bind="with : SelectedSale">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Sale</h4>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Select Customer</label>
+                        <select class="form-control" data-bind="options : $parent.Customers, optionsText : 'Name', value : $parent.SelectedCustomer, optionsCaption:'Select Customer'" ></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Product</label>
+                        <select class="form-control" data-bind="options : $parent.Products, optionsText : 'Name', value : $parent.SelectedProduct"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Store</label>
+                        <select class="form-control" data-bind="options : $parent.Stores, optionsText : 'Name', value : $parent.SelectedStore"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date Sold</label>
+                        <input data-bind="value: $parent.DateSold, valueUpdate: 'afterkeydown'" id="datesold" type="text" class="form-control" placeholder="YYYY-MM-DD">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnSave" type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click : $root.Save">Save</button>
+                    <button type="button" data-bind="click: $root.closePage1" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" data-bind="with : SelectedSale">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Record</h4>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Select Customer</label>
+                        <select class="form-control" data-bind="options : $parent.Customers, optionsText : 'Name', value : $parent.SelectedCustomer"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Product</label>
+                        <select class="form-control" data-bind="options : $parent.Products, optionsText : 'Name', value : $parent.SelectedProduct"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Store</label>
+                        <select class="form-control" data-bind="options : $parent.Stores, optionsText : 'Name', value : $parent.SelectedStore"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date Sold</label>
+                        <input data-bind="value: $parent.DateSold, valueUpdate: 'afterkeydown',optionsText : 'Name'" id="datesold" type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnUpdate" type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click : $root.Update">Update</button>
+                    <button type="button" data-bind="click: $root.closePage" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        ko.applyBindings(new ViewModel());
+    });
+</script>
+
+@section Scripts{
+    @*<script type="text/javascript" src="~/Scripts/MyScripts/ProductSold.js"></script>*@
+<script src="~/Scripts/ProductSold.js"></script>
+}
